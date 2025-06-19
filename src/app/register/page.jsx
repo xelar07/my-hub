@@ -1,7 +1,7 @@
 // En el archivo: src/app/register/page.jsx
 "use client";
 import { useState } from 'react';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import Link from 'next/link';
 
 export default function RegisterPage() {

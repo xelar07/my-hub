@@ -1,6 +1,6 @@
 // En el archivo: src/app/dashboard/page.jsx
 "use client";
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '../context/AuthContext'; // Importamos nuestro "cerebro"
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
