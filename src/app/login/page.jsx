@@ -1,7 +1,7 @@
 // En el archivo: src/app/login/page.jsx
 "use client";
 import { useState } from 'react';
-import { useAuth } from '@/context/AuthContext'; // Importamos nuestro "cerebro"
+import { useAuth } from '../context/AuthContext'; // Importamos nuestro "cerebro"
 import Link from 'next/link';
 
 export default function LoginPage() {

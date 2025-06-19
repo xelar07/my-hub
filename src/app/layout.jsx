@@ -1,5 +1,5 @@
 // En el archivo: src/app/layout.jsx
-import { AuthProvider } from '@/context/AuthContext';
+import { AuthProvider } from '../app/context/AuthContext'; // Importamos nuestro "cerebro"
 import './app.css'; // Importamos el CSS que ya tenías
 
 export const metadata = {

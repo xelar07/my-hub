@@ -1,7 +1,7 @@
 // En el archivo: src/app/page.jsx
 "use client";
 import { useEffect } from 'react';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from './context/AuthContext'; // Importamos nuestro "cerebro"
 import { useRouter } from 'next/navigation';
 
 export default function HomePage() {

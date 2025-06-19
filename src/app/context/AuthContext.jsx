@@ -2,7 +2,7 @@
 "use client";
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { account, ID } from '@/lib/appwrite';
+import { account, ID } from '../../lib/appwrite';
 import { useRouter } from 'next/navigation';
 
 const AuthContext = createContext();
