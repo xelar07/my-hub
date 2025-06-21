@@ -1,4 +1,6 @@
-import { Client, Account, Databases, ID } from "appwrite"; // <--- 1. Añade ID aquí
+// En el archivo: src/lib/appwrite.js
+
+import { Client, Account, Databases, ID, Storage } from "appwrite"; // 'Storage' con S mayúscula
 
 const client = new Client()
   .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
@@ -6,5 +8,6 @@ const client = new Client()
 
 const account = new Account(client);
 const databases = new Databases(client);
+const storage = new Storage(client); // 'new Storage()' con S mayúscula
 
-export { client, account, databases, ID }; // <--- 2. Y añádelo a la exportación
+export { client, account, databases, storage, ID };

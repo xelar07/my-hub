@@ -1,4 +1,4 @@
-// En el archivo: src/context/AuthContext.jsx
+// src/context/AuthContext.jsx
 "use client";
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
@@ -21,18 +21,19 @@ export const AuthProvider = ({ children }) => {
             await account.createEmailPasswordSession(email, password);
             const loggedInUser = await account.get();
             setUser(loggedInUser);
-            router.push('/dashboard');
+            return { success: true };
         } catch (error) {
-            alert("Error al iniciar sesión. Revisa tu email y contraseña.");
+            return { success: false, error };
         }
     };
 
     const register = async (email, password, name) => {
         try {
             await account.create(ID.unique(), email, password, name);
-            await login(email, password);
+            const loginResult = await login(email, password);
+            return loginResult;
         } catch (error) {
-            alert("Error al registrar. El email puede que ya esté en uso.");
+            return { success: false, error };
         }
     };
 
@@ -40,9 +41,9 @@ export const AuthProvider = ({ children }) => {
         try {
             await account.deleteSession('current');
             setUser(null);
-            router.push('/login');
+            return { success: true };
         } catch (error) {
-            alert("Error al cerrar sesión.");
+            return { success: false, error };
         }
     };
 

@@ -1,0 +1,177 @@
+/* 🌌 Contenedor principal de la página */
+.pageContainer {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* Evita que el contenido se desborde */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Alinea el contenido hacia la izquierda */
+  padding: 0 5%;
+  background-color: #000; /* Color de fondo por defecto mientras se carga la imagen */
+}
+
+/* 🎥 Capa borrosa que usa la misma imagen con 'cover' y blur */
+.backgroundBlur {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cubre todo el contenedor */
+  object-position: center;
+  z-index: 0; /* Detrás de todo */
+  filter: blur(20px) brightness(0.5); /* Desenfoque y oscurecimiento */
+  transform: scale(1.1); /* Previene bordes negros por el blur */
+  transition: opacity 1s ease;
+  pointer-events: none; /* No bloquea clics */
+}
+
+/* 📷 Imagen principal de fondo con 'contain' */
+.backgroundImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Muestra toda la imagen, puede dejar bordes */
+  object-position: center;
+  z-index: 1; /* Justo delante del blur */
+  transition: opacity 1s ease;
+  opacity: 1;
+  pointer-events: none;
+}
+
+/* 🔘 Botón de mostrar login (esquina superior derecha) */
+.loginToggleButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #ff2475; /* Color principal */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 3;
+  transition: background-color 0.3s;
+  font-family: 'Poppins', sans-serif; /* Fuente personalizada */
+  color: white; /* Texto blanco */
+}
+
+/* ✨ Efecto hover para el botón login */
+.loginToggleButton:hover {
+  background-color: rgb(255, 255, 255); /* Fondo blanco */
+  color: #ff2475; /* Texto rosado */
+}
+
+/* 📦 Caja del formulario de login */
+.loginBox {
+  position: relative;
+  z-index: 2; /* Por encima de fondo pero debajo del botón */
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  background-color: rgba(255, 255, 255, 0); /* Fondo blanco translúcido */
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0); /* Sombra suave */
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  animation: fadeIn 0.6s ease forwards; /* Animación de aparición */
+}
+
+/* 🎞️ Animación para mostrar el loginBox */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🧠 Título del login / logo */
+.logo {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ff2475; /* Color rosado */
+  font-family: 'Poppins', sans-serif; /* Fuente personalizada */
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* 🧱 Agrupación de input + icono */
+.formGroup {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+/* 🖼️ Icono del input (usuario/contraseña) */
+.icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ff2475;
+  font-size: 1.2rem;
+}
+
+/* 📝 Campo de entrada */
+.input {
+  width: 100%;
+  padding: 15px 15px 15px 50px; /* Espacio para el icono a la izquierda */
+  border: 1px solid #ff2475; /* Borde rosado */
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  color: #ffffff; /* Texto rosado */
+  background-color: rgba(255, 36, 117, 0.1); /* Rosado muy claro */
+  font-family: poppins, sans-serif; /* Fuente personalizada */
+}
+
+/* 🔐 Botón de envío del formulario */
+.loginButton {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #ff2475; /* Color principal */
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* 🖱️ Efecto hover para el botón de login */
+.loginButton:hover {
+  background-color: #ffffff; /* Cambia a blanco */
+  color: #ff2475; /* Texto rosado */
+}
+
+/* 🔗 Contenedor de los enlaces de registro */
+.links {
+  margin-top: 20px;
+  text-align: center;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.99rem;
+}
+
+/* 🔗 Estilos para los enlaces */
+.links a {
+  color: #ff2475;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+}
+
+/* 🔗 Hover en los enlaces */
+.links a:hover {
+  text-decoration: underline;
+  font-family: 'Poppins', sans-serif;
+}
