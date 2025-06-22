@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'; // ✅ Importar router
 import styles from './login.module.css';
 import { FiUser, FiLock } from 'react-icons/fi';
 import { storage } from '../../lib/appwrite';
@@ -10,6 +11,8 @@ import { storage } from '../../lib/appwrite';
 const BUCKET_ID = '685633420033dba64f36';
 
 export default function LoginPage() {
+  const router = useRouter(); // ✅ Definir router
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login } = useAuth();
@@ -77,25 +80,24 @@ export default function LoginPage() {
   }, [showLogin]);
 
   // Manejar envío de formulario con control de loading y errores
-    const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-        const result = await login(email, password);
-        if (result.success) {
-        router.push('/dashboard');
-        } else {
-        alert("Error al iniciar sesión: " + (result.error?.message || "Error desconocido"));
-        }
+      const result = await login(email, password);
+      if (result.success) {
+        router.push('../main'); // ✅ Ya no da error
+      } else {
+        const message = result.error?.message || "Error desconocido al iniciar sesión";
+        alert("Error al iniciar sesión: " + message);
+      }
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-    };
+  };
 
   return (
     <div className={styles.pageContainer}>
-      {/* Partículas de fondo */}
-
       {/* Imagen desenfocada que rellena los bordes */}
       {currentBackground && (
         <>
@@ -125,7 +127,13 @@ export default function LoginPage() {
       )}
 
       {showLogin && (
-        <div className={styles.loginBox} ref={loginBoxRef} role="dialog" aria-modal="true" aria-labelledby="login-title">
+        <div
+          className={styles.loginBox}
+          ref={loginBoxRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="login-title"
+        >
           <h1 id="login-title" className={styles.logo}>My Hub</h1>
           <form onSubmit={handleSubmit}>
             <div className={styles.formGroup}>

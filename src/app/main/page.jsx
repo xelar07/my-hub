@@ -1,40 +1,85 @@
-// En el archivo: src/app/main/page.jsx
 "use client";
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '../../context/AuthContext'; // Ajusta la ruta si es necesario
-import styles from './main.module.css';
-import Image from 'next/image'; // Usaremos el componente de Imagen de Next.js
 
-// --- Componente de la Página Principal ---
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../context/AuthContext";
+import styles from "./main.module.css";
+import Image from "next/image";
+import VideoCarousel from "./VideoCarousel";
+import { storage } from '../../lib/appwrite';
+
 export default function MainPage() {
   const { user, loading, logout } = useAuth();
   const router = useRouter();
+  const [slides, setSlides] = useState([]);
 
-  // --- Protección de la Ruta ---
+  const bucketId = "6857514b003101d6afe4"; // <- Verifica que este ID sea correcto
+
   useEffect(() => {
-    // Si no está cargando y no hay usuario, redirige a login
     if (!loading && !user) {
-      router.push('/login');
+      console.log("Usuario no autenticado, redirigiendo a /login");
+      router.push("/login");
+    } else {
+      console.log("Usuario autenticado:", user);
     }
   }, [user, loading, router]);
 
-  // Muestra un loader mientras se verifica el estado del usuario
+  useEffect(() => {
+    const fetchSlides = async () => {
+      console.log("Intentando obtener archivos del bucket:", bucketId);
+
+      try {
+        const response = await storage.listFiles(bucketId);
+        console.log("Respuesta de Appwrite:", response);
+
+        if (!response || !response.files || response.files.length === 0) {
+          console.warn("No se encontraron archivos en el bucket");
+        }
+
+        const newSlides = response.files.map((file) => {
+          const url = storage.getFilePreview(bucketId, file.$id).toString();
+          console.log("Archivo encontrado:", file.name, "| URL:", url);
+          return {
+            image: url,
+            video: null,
+          };
+        });
+
+        setSlides(newSlides);
+      } catch (error) {
+        console.error("Error al obtener imágenes del bucket:", error);
+      }
+    };
+
+    fetchSlides();
+  }, []);
+
   if (loading || !user) {
-    return <div style={{ backgroundColor: '#0c111b', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>Cargando...</div>;
+    return (
+      <div
+        style={{
+          backgroundColor: "#0c111b",
+          height: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "white",
+        }}
+      >
+        Cargando...
+      </div>
+    );
   }
 
-  // --- Renderizado de la Página ---
   return (
     <div className={styles.mainContainer}>
       {/* --- Barra de Navegación --- */}
       <nav className={styles.header}>
         <div className={styles.navMenu}>
-          {/* Aquí podrías poner tu logo */}
-          <span style={{ fontSize: '24px', fontWeight: 'bold' }}>MiPLATAFORMA</span>
-          <a><span>HOME</span></a>
+          <span style={{ fontSize: "24px", fontWeight: "bold" }}>MY HUB</span>
+          <a><span>INICIO</span></a>
           <a><span>SERIES</span></a>
-          <a><span>MOVIES</span></a>
+          <a><span>PELÍCULAS</span></a>
         </div>
         <div className={styles.userProfile}>
           <span className={styles.userName}>{user.name}</span>
@@ -44,17 +89,18 @@ export default function MainPage() {
       </nav>
 
       <main>
-        {/* --- Banner Principal --- */}
+        {/* --- Carrusel de Video/Imagen --- */}
         <section className={styles.banner}>
-          <Image 
-            src="https://placehold.co/1400x600/0c111b/white?text=Película+Destacada" 
-            alt="Banner principal" 
-            layout="fill"
-            objectFit="cover"
-          />
+          {slides.length > 0 ? (
+            <VideoCarousel slides={slides} />
+          ) : (
+            <p style={{ color: "white", textAlign: "center" }}>
+              No hay imágenes disponibles en el bucket.
+            </p>
+          )}
         </section>
 
-        {/* --- Bloque de Categorías --- */}
+        {/* --- Categorías --- */}
         <section className={styles.categories}>
           <div className={styles.categoryBox}>
             <Image src="https://placehold.co/400x225/393e46/f9f9f9?text=DISNEY" alt="Disney" width={400} height={225} />
@@ -73,7 +119,7 @@ export default function MainPage() {
           </div>
         </section>
 
-        {/* --- Carrusel 1: Recomendado para ti --- */}
+        {/* --- Carruseles adicionales --- */}
         <section className={styles.carousel}>
           <h4>Recomendado para Ti</h4>
           <div className={styles.carouselContent}>
@@ -85,7 +131,6 @@ export default function MainPage() {
           </div>
         </section>
 
-        {/* --- Carrusel 2: Nuevos Lanzamientos --- */}
         <section className={styles.carousel}>
           <h4>Nuevos Lanzamientos</h4>
           <div className={styles.carouselContent}>
