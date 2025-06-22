@@ -1,6 +1,4 @@
-// En el archivo: src/lib/appwrite.js
-
-import { Client, Account, Databases, ID, Storage } from "appwrite"; // 'Storage' con S mayúscula
+import { Client, Account, Databases, ID, Storage, Query } from "appwrite";
 
 const client = new Client()
   .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
@@ -8,6 +6,6 @@ const client = new Client()
 
 const account = new Account(client);
 const databases = new Databases(client);
-const storage = new Storage(client); // 'new Storage()' con S mayúscula
+const storage = new Storage(client);
 
-export { client, account, databases, storage, ID };
+export { client, account, databases, storage, ID, Query };

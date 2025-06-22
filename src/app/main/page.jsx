@@ -40,6 +40,7 @@ export default function MainPage() {
           const url = storage.getFilePreview(bucketId, file.$id).toString();
           console.log("Archivo encontrado:", file.name, "| URL:", url);
           return {
+            id: file.$id,    // <-- Aquí guardas el id real del archivo
             image: url,
             video: null,
           };
